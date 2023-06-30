@@ -1,0 +1,24 @@
+{
+  "name": "crypto-data-abstraction-layer",
+  "version": "1.0.0",
+  "description": "A library which provides an abstraction layer on top of multiple crypto data apis such as bitquery, etherscan, and others",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "test": "npm run build && node dist/test/index.js",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.3.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "ethers": "^5.7.2"
+  }
+}
