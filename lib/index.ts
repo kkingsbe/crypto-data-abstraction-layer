@@ -75,18 +75,24 @@ export class CDAL {
      * @param price The tokens price in USD
      * @returns 
      */
-    static async getFDV(contractAddress: string, price: number): Promise<number> {
+    static async getFDV(contractAddress: string, price: number): Promise<Result<number, string>> {
         try {
             if(contractAddress && price) {
-                const marketCap = await Etherscan.getFDV(contractAddress, price, this.providerUrl, this.etherscanKey)
-                return marketCap
+                const fdv = await Etherscan.getFDV(contractAddress, price, this.providerUrl, this.etherscanKey)
+                return {
+                    success: true,
+                    data: fdv
+                }
             }
         } catch (e) {
-            console.log(`Unable to get market cap for ${contractAddress}`)
+            console.log(`Unable to get FDV for ${contractAddress}`)
             console.log(e)
         }
       
-        return 0
+        return {
+            success: false,
+            error: "Unable to get FDV"
+        }
     }
       
     /**
@@ -94,18 +100,24 @@ export class CDAL {
      * @param contractAddress The tokens contract address
      * @returns 
      */
-    static async getHolders(contractAddress: string): Promise<number> {
+    static async getHolders(contractAddress: string): Promise<Result<number, string>> {
         try {
             if(contractAddress) {
                 const holders = (await axios.get(`https://api.ethplorer.io/getTokenInfo/${contractAddress}?apiKey=${this.ethplorerKey}`)).data.holdersCount
-                return holders
+                return {
+                    success: true,
+                    data: holders
+                }
             }
         } catch (e) {
             console.log(`Unable to get holders for ${contractAddress}`)
             console.log(e)
         }
       
-        return 0
+        return {
+            success: false,
+            error: "Unable to get holders"
+        }
     }
 
     /**
