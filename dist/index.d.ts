@@ -28,13 +28,13 @@ export declare class CDAL {
      * @param price The tokens price in USD
      * @returns
      */
-    static getFDV(contractAddress: string, price: number): Promise<number>;
+    static getFDV(contractAddress: string, price: number): Promise<Result<number, string>>;
     /**
      * Gets the total number of holders for the token
      * @param contractAddress The tokens contract address
      * @returns
      */
-    static getHolders(contractAddress: string): Promise<number>;
+    static getHolders(contractAddress: string): Promise<Result<number, any>>;
     /**
      * Server-Side
      * Gets the two token names from the provided pair address

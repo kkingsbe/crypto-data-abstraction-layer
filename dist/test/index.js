@@ -48,7 +48,7 @@ __1.CDAL.init({
 function test() {
     var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function () {
-        var names, price;
+        var names, price, holders;
         return __generator(this, function (_e) {
             switch (_e.label) {
                 case 0: return [4 /*yield*/, __1.CDAL.getTokenNamesFromPair("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852")];
@@ -57,6 +57,11 @@ function test() {
                     return [4 /*yield*/, __1.CDAL.getPriceData("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852", "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852")];
                 case 2:
                     price = _e.sent();
+                    return [4 /*yield*/, __1.CDAL.getHolders("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852")];
+                case 3:
+                    holders = _e.sent();
+                    console.log("HOLDERS DATA:");
+                    console.log(holders);
                     console.log("Pricing data for ".concat((_a = names.data) === null || _a === void 0 ? void 0 : _a.baseTokenName, " (").concat((_b = names.data) === null || _b === void 0 ? void 0 : _b.baseTokenSymbol, "): $").concat((_c = price.data) === null || _c === void 0 ? void 0 : _c.price, " (").concat((_d = price.data) === null || _d === void 0 ? void 0 : _d.percentChange, "%)"));
                     return [2 /*return*/];
             }

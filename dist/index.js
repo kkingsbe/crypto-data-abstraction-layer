@@ -53,11 +53,25 @@ var CDAL = /** @class */ (function () {
      * @param config
      */
     CDAL.init = function (config) {
-        var _a, _b;
+        var _a;
+        if (config.bitqueryKey == '') {
+            throw new Error("CDAL: Bitquery key is required");
+        }
+        if (config.etherscanKey == '') {
+            throw new Error("CDAL: Etherscan key is required");
+        }
+        if (config.providerUrl == '') {
+            throw new Error("CDAL: Provider URL is required");
+        }
+        if (config.ethplorerKey == '') {
+            this.ethplorerKey = "freekey";
+        }
+        else {
+            this.ethplorerKey = config.ethplorerKey;
+        }
         this.bitqueryKey = config.bitqueryKey;
         this.etherscanKey = config.etherscanKey;
-        this.ethplorerKey = (_a = config.ethplorerKey) !== null && _a !== void 0 ? _a : "freeKey";
-        this.providerUrl = (_b = config.providerUrl) !== null && _b !== void 0 ? _b : "";
+        this.providerUrl = (_a = config.providerUrl) !== null && _a !== void 0 ? _a : "";
     };
     /**
      * Gets updated current price and percent change
@@ -118,7 +132,7 @@ var CDAL = /** @class */ (function () {
      */
     CDAL.getFDV = function (contractAddress, price) {
         return __awaiter(this, void 0, void 0, function () {
-            var marketCap, e_1;
+            var fdv, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -126,15 +140,21 @@ var CDAL = /** @class */ (function () {
                         if (!(contractAddress && price)) return [3 /*break*/, 2];
                         return [4 /*yield*/, etherscan_1.Etherscan.getFDV(contractAddress, price, this.providerUrl, this.etherscanKey)];
                     case 1:
-                        marketCap = _a.sent();
-                        return [2 /*return*/, marketCap];
+                        fdv = _a.sent();
+                        return [2 /*return*/, {
+                                success: true,
+                                data: fdv
+                            }];
                     case 2: return [3 /*break*/, 4];
                     case 3:
                         e_1 = _a.sent();
-                        console.log("Unable to get market cap for ".concat(contractAddress));
+                        console.log("Unable to get FDV for ".concat(contractAddress));
                         console.log(e_1);
                         return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/, 0];
+                    case 4: return [2 /*return*/, {
+                            success: false,
+                            error: "Unable to get FDV"
+                        }];
                 }
             });
         });
@@ -155,14 +175,23 @@ var CDAL = /** @class */ (function () {
                         return [4 /*yield*/, axios_1.default.get("https://api.ethplorer.io/getTokenInfo/".concat(contractAddress, "?apiKey=").concat(this.ethplorerKey))];
                     case 1:
                         holders = (_a.sent()).data.holdersCount;
-                        return [2 /*return*/, holders];
+                        return [2 /*return*/, {
+                                success: true,
+                                data: holders
+                            }];
                     case 2: return [3 /*break*/, 4];
                     case 3:
                         e_2 = _a.sent();
                         console.log("Unable to get holders for ".concat(contractAddress));
                         console.log(e_2);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/, 0];
+                        return [2 /*return*/, {
+                                success: false,
+                                error: e_2
+                            }];
+                    case 4: return [2 /*return*/, {
+                            success: false,
+                            error: "Unable to get holders"
+                        }];
                 }
             });
         });

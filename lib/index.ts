@@ -23,11 +23,27 @@ export class CDAL {
      * @param config 
      */
     static init(config: CDALConfig) {
+        if(config.bitqueryKey == '') {
+            throw new Error("CDAL: Bitquery key is required")
+        }
+
+        if(config.etherscanKey == '') {
+            throw new Error("CDAL: Etherscan key is required")
+        }
+        
+        if(config.providerUrl == '') {
+            throw new Error("CDAL: Provider URL is required")
+        }
+
+        if(config.ethplorerKey == '') {
+            this.ethplorerKey = "freekey";
+        } else {
+            this.ethplorerKey = config.ethplorerKey;
+        }
+
         this.bitqueryKey = config.bitqueryKey;
         this.etherscanKey = config.etherscanKey;
-        this.ethplorerKey = config.ethplorerKey ?? "freeKey";
         this.providerUrl = config.providerUrl ?? "";
-        
     }
 
     /**
@@ -100,7 +116,7 @@ export class CDAL {
      * @param contractAddress The tokens contract address
      * @returns 
      */
-    static async getHolders(contractAddress: string): Promise<Result<number, string>> {
+    static async getHolders(contractAddress: string): Promise<Result<number, any>> {
         try {
             if(contractAddress) {
                 const holders = (await axios.get(`https://api.ethplorer.io/getTokenInfo/${contractAddress}?apiKey=${this.ethplorerKey}`)).data.holdersCount
@@ -112,8 +128,12 @@ export class CDAL {
         } catch (e) {
             console.log(`Unable to get holders for ${contractAddress}`)
             console.log(e)
+            return {
+                success: false,
+                error: e
+            }
         }
-      
+
         return {
             success: false,
             error: "Unable to get holders"

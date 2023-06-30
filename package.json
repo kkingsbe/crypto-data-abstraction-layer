@@ -1,6 +1,6 @@
 {
   "name": "crypto-data-abstraction-layer",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A library which provides an abstraction layer on top of multiple crypto data apis such as bitquery, etherscan, and others",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -15,7 +15,10 @@ async function test() {
     */
    const names = await CDAL.getTokenNamesFromPair("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852")
    const price = await CDAL.getPriceData("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852", "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852")
+   const holders = await CDAL.getHolders("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852")
    console.log(`Pricing data for ${names.data?.baseTokenName} (${names.data?.baseTokenSymbol}): $${price.data?.price} (${price.data?.percentChange}%)`)
+   console.log("Holders:")
+   console.log(holders)
 }
 
 test()
